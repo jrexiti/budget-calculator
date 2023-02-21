@@ -41,7 +41,7 @@ function App() {
     setAlert({ show: true, type, text });
     setTimeout(() => {
       setAlert({ show: false });
-    }, 3000);
+    }, 5000);
   };
 
   //handle submit function
@@ -55,7 +55,27 @@ function App() {
       setCharge("");
       setAmount("");
     } else {
+      handleAlert({
+        type: "danger",
+        text: `charge field cannot be empty and amount value has to be greater than 0`,
+      });
     }
+  };
+
+  // clear all items
+
+  const clearItems = () => {
+    console.log("Cleared all items");
+    setExpenses([]);
+  };
+  // handle delete
+  const handleDelete = (id) => {
+    console.log(`Item deleted: ${id}`);
+  };
+
+  //handle edit
+  const handleEdit = (id) => {
+    console.log(`Item edited: ${id}`);
   };
 
   return (
@@ -71,7 +91,12 @@ function App() {
           handleCharge={handleCharge}
           handleSubmit={handleSubmit}
         />
-        <ExpenseList expenses={expenses} />
+        <ExpenseList
+          expenses={expenses}
+          handleDelete={handleDelete}
+          handleEdit={handleEdit}
+          clearItems={clearItems}
+        />
       </main>
       <h1>
         Total spending :{" "}
@@ -85,5 +110,4 @@ function App() {
     </>
   );
 }
-
 export default App;
