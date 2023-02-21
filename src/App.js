@@ -5,11 +5,14 @@ import Alert from "./components/Alert";
 import { v4 as uuidv4 } from "uuid";
 import { useState } from "react";
 
-const initialExpenses = [
-  { id: uuidv4(), charge: "rent", amount: 1600 },
-  { id: uuidv4(), charge: "car payment", amount: 500 },
-  { id: uuidv4(), charge: "credit cards", amount: 1200 },
-];
+// const initialExpenses = [
+//   { id: uuidv4(), charge: "rent", amount: 1600 },
+//   { id: uuidv4(), charge: "car payment", amount: 500 },
+//   { id: uuidv4(), charge: "credit cards", amount: 1200 },
+// ];
+const initialExpenses = localStorage.getItem("expenses")
+  ? JSON.parse(localStorage.getItem("expenses"))
+  : [];
 
 function App() {
   // ************** state values **************
@@ -54,9 +57,19 @@ function App() {
     e.preventDefault();
     console.log(charge, amount);
     if (charge !== "" && amount > 0) {
-      const singleExpense = { id: uuidv4(), charge, amount };
-      setExpenses([...expenses, singleExpense]);
-      handleAlert({ type: "success", text: "item added" });
+      if (edit) {
+        let tempExpenses = expenses.map((item) => {
+          return item.id === id ? { ...item, charge, amount } : item;
+        });
+        setExpenses(tempExpenses);
+        setEdit(false);
+        handleAlert({ type: "success", text: "item updated" });
+      } else {
+        const singleExpense = { id: uuidv4(), charge, amount };
+        setExpenses([...expenses, singleExpense]);
+        handleAlert({ type: "success", text: "item added" });
+      }
+
       setCharge("");
       setAmount("");
     } else {
@@ -86,6 +99,8 @@ function App() {
     let { charge, amount } = expense;
     setCharge(charge);
     setAmount(amount);
+    setEdit(true);
+    setId(id);
   };
 
   return (
