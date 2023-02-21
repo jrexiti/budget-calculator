@@ -1,7 +1,7 @@
-import React from 'react'
+import React from "react";
 
-export const ExpenseForm = () => {
-  return (
-    <div>ExpenseForm</div>
-  )
-}
+const ExpenseForm = () => {
+  return <div>Hello there</div>;
+};
+
+export default ExpenseForm;
