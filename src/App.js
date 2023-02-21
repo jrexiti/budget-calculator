@@ -13,15 +13,20 @@ const initialExpenses = [
 
 function App() {
   // ************** state values **************
+
   // all expenses, add expense
   const [expenses, setExpenses] = useState(initialExpenses);
   //single expense
   const [charge, setCharge] = useState("");
   //single amount
   const [amount, setAmount] = useState("");
-
   //alert
   const [alert, setAlert] = useState({ show: false });
+  // edit
+  const [edit, setEdit] = useState(false);
+  // edit item
+  const [id, setId] = useState(0);
+
   // ************** functionality **************
 
   // handle charge function
@@ -77,7 +82,10 @@ function App() {
 
   //handle edit
   const handleEdit = (id) => {
-    console.log(`Item edited: ${id}`);
+    let expense = expenses.find((item) => item.id === id);
+    let { charge, amount } = expense;
+    setCharge(charge);
+    setAmount(amount);
   };
 
   return (
@@ -92,6 +100,7 @@ function App() {
           handleAmount={handleAmount}
           handleCharge={handleCharge}
           handleSubmit={handleSubmit}
+          edit={edit}
         />
         <ExpenseList
           expenses={expenses}
